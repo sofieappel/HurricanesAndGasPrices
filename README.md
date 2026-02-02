@@ -7,7 +7,9 @@ A thorough understanding of the impact of hurricanes and large scale natural wea
 
 **Team Members:**
 Erin Noonan: Data Lead
+
 Lily Holmes: Modeling Lead
+
 Sofie Appel: Visualization Lead
 
 **Milestone Outline:**
