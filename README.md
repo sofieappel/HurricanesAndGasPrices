@@ -6,6 +6,7 @@ How does the presence of a hurricane in the Atlantic Ocean impact Florida gas pr
 A thorough understanding of the impact of hurricanes and large scale natural weather disasters is imperative for the wellbeing of the citizens of Florida and the southern economies. This understanding would benefit Floridians by providing insight into how to best prepare for extreme weather events based on the phases of a developing hurricane. 
 
 **Team Members:**
+
 Erin Noonan: Data Lead
 
 Lily Holmes: Modeling Lead
