@@ -8,6 +8,7 @@ A thorough understanding of the impact of hurricanes and large scale natural wea
 ## Team Members:
 
 **Erin Noonan:** Data Lead
+Note: No picture posted on website per discussion with Professor Bastias.
 
 **Lily Holmes:** Modeling Lead
 
