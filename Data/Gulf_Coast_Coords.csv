@@ -1,0 +1,85 @@
+State,City,Coast,LAT,LON
+TX,Brownsville,Gulf,25.93,-97.48
+TX,Corpus Christi,Gulf,27.71,-97.29
+TX,Port Arsansas,Gulf,27.83,-97.08
+TX,Victoria,Gulf,28.82,-96.98
+TX,Port O'Connor,Gulf,28.23,-96.64
+TX,Lake Jackson,Gulf,29,-95.45
+TX,Freeport,Gulf,28.95,-95.36
+TX,Galveston,Gulf,29.32,-94.89
+TX,Houston,Gulf,29.8,-95.39
+TX,Port Arthur,Gulf,29.83,-93.93
+LA,Baton Rouge,Gulf,30.45,-91.13
+LA,Houma,Gulf,29.58,-90.71
+LA,New Orleans,Gulf,30.07,-89.93
+LA,Buras,Gulf,29.34,-89.5
+MS,Hattiesburg,Gulf,31.31,-89.31
+MS,Biloxi,Gulf,30.42,-88.93
+MS,Gulfport,Gulf,30.39,-89.07
+MS,Pascagoula,Gulf,30.37,-88.55
+AL,Mobile,Gulf,30.68,-88.09
+FL,Pensacola,Gulf,30.4,-87.2
+FL,Valparaiso,Gulf,30.49,-86.5
+FL,Panama City,Gulf,30.2,-85.7
+FL,Tallahassee,Gulf,30.46,-84.28
+FL,Perry,Gulf,30.1,-83.6
+FL,Gainesville,Gulf,29.7,-82.3
+FL,Inverness,Gulf,28.8,-82.3
+FL,Spring Hill,Gulf,28.5,-82.6
+FL,Tampa,Gulf,28,-82.5
+FL,St. Petersburg,Gulf,27.8,-82.6
+FL,Sarasota,Gulf,27.3,-82.5
+FL,Port Charlotte,Gulf,27,-82.1
+FL,Fort Meyers,Gulf,26.6,-81.9
+FL,Cape Coral,Gulf,26.6,-82
+FL,Naples,Gulf,26.1,-81.8
+FL,Cape Sable,Gulf,25.3,-81
+FL,Key West,Gulf,24.6,-81.7
+FL,Cape Sable,Gulf,25.3,-81
+FL,Miami,Atlantic,25.8,-80.2
+FL,Hollywood,Atlantic,26,-80.2
+FL,Fort Lauderdale,Atlantic,26.1,-80.1
+FL,Boca Raton,Atlantic,26.4,-80.1
+FL,Lake Worth,Atlantic,26.6,-80.1
+FL,Mar-a-Lago,Atlantic,26.68,-80.04
+FL,West Palm Beach,Atlantic,26.7,-80.1
+FL,Jupiter,Atlantic,26.9,-80.1
+FL,Jensen Beach,Atlantic,27.25,-80.23
+FL,Port St. Lucie,Atlantic,27.3,-80.4
+FL,Fort Pierce,Atlantic,27.4,-80.3
+FL,Vero Beach,Atlantic,27.6,-80.4
+FL,Palm Bay,Atlantic,28,-80.7
+FL,Melbourne,Atlantic,28.1,-80.6
+FL,Cape Canaveral,Atlantic,28.4,-80.6
+FL,Orlando,Atlantic,28.5,-81.4
+FL,Titusville,Atlantic,28.6,-80.8
+FL,Daytona Beach,Atlantic,29.2,-81.1
+FL,Palm Coast,Atlantic,29.6,-81.2
+FL,St. Augustine,Atlantic,29.9,-81.3
+FL,Jacksonville,Atlantic,30.3,-81.7
+GA,Brunswick,Atlantic,31.1,-81.5
+GA,Savannah,Atlantic,32,-81.1
+SC,Charleston,Atlantic,32.8,-80
+SC,Myrtle Beach,Atlantic,33.7,-78.9
+NC,Cape Fear,Atlantic,33.8,-78
+NC,Wilmington,Atlantic,34.2,-77.9
+NC,Jacksonville,Atlantic,34.8,-77.4
+NC,Cape Lookout,Atlantic,34.6,-76.5
+NC,Cape Hatteras,Atlantic,35.3,-75.5
+VA,Virgina Beach,Atlantic,36.7,-76
+VA,Richmond,Atlantic,37.5,-77.4
+MD,Ocean City,Atlantic,38.4,-75
+DC,Washington,Atlantic,38.9,-77
+PA,Philadelphia,Atlantic,40,-75.1
+NJ,Atlantic City,Atlantic,39.4,-74.4
+NY,New York,Atlantic,40.7,-73.9
+CT,New Haven,Atlantic,41.3,-72.9
+MA,Boston,Atlantic,42.4,-71.1
+MA,New Bedford,Atlantic,41.7,-70.9
+MA,Cape Cod,Atlantic,41.8,-70.5
+MA,Nantucket,Atlantic,41.3,-70.1
+ME,Portland,Atlantic,43.7,-70.3
+ME,Bangor,Atlantic,44.8,-68.8
+NB,Saint John,Atlantic,45.3,-66
+NS,Halifax,Atlantic,44.6,-63.6
+NS,Sydney,Atlantic,46.1,-60.2
