@@ -8,6 +8,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+import os
+
 # import scipy for statistical analysis in eda
 #!pip install scipy
 from scipy import stats
@@ -18,29 +20,14 @@ from scipy import stats
 # import datetime to set timestamp on pdf report
 from datetime import datetime
 
-# import additional libraries to support ai generated code
-
-# install pdfplumber
-#!pip install pdfplumber -q
-
- # import pdfplumber and os to help import and transform data files
-#import pdfplumber
-#import os
-
-# import fpdf for pdf generation
-#!pip install fpdf
-#from fpdf import FPDF
-
-#!pip install PyPDF2
-#import PyPDF2
-
 print("All required libraries installed")
 
 # data file names 
 
 data_file_hurr = "../data/ibtracs.NA.list.v04r01.csv"
 
-data_file_gas = "../data/gas_coordinates.csv"
+data_file_gas = "../data/aaa_fl_metros_wayback_2022_2025.csv"
+#"../data/gas_coordinates.csv"
 
 data_file_coast = "../data/Gulf_Coast_Coords.csv"
 
@@ -48,10 +35,22 @@ data_file_coast = "../data/Gulf_Coast_Coords.csv"
 from file_load import df_import
 
 hurr_data = df_import(data_file_hurr)
+hurr_data.name = 'hurr_data'
 
 gas_data = df_import(data_file_gas)
+gas_data.name = 'gas_data'
 
 coast_pt_data = df_import(data_file_coast)
+
+# import stats functions
+from stats_look import *
+
+# run stats on baseline data
+# basic analysis on hurricane data
+sum_stats(hurr_data)
+
+# basic analysis on gas data
+sum_stats(gas_data)
 
 # import data cleaning functions
 from clean import *
@@ -60,11 +59,41 @@ from clean import *
 # Generates data frames with ALL data and a set of filtered data frames for "recent" (2022-2025)
 hurr_data_redux, hurr_list, hurr_sum_list, hurr_data_redux_rec, hurr_list_rec, hurr_sum_list_rec= hurr_clean(hurr_data)
 
+# Name output data frames
+hurr_data_redux.name = 'hurr_data_redux'
+hurr_list.name = 'hurr_list'
+hurr_sum_list.name = 'hurr_sum_list'
+hurr_data_redux_rec.name = 'hurr_data_redux_rec'
+hurr_list_rec.name = 'hurr_list_rec'
+hurr_sum_list_rec.name = 'hurr_sum_list_rec'
+
+# List metro areas of interest
+# all FL cities selected to represent the perimeter
+metro_all = ['Pensacola', 'Tallahassee', 'Tampa-St. Petersburg-Clearwater', 'Fort Myers-Cape Coral', 'Miami','West Palm Beach-Boca Raton','Melbourne-Titusville','Daytona Beach','Jacksonville']
+
+# East coast of FL
+metro_east = ['Miami','West Palm Beach-Boca Raton','Melbourne-Titusville','Daytona Beach','Jacksonville']
+
+# West coast of FL (exl panhandle)
+metro_west = ['Tampa-St. Petersburg-Clearwater', 'Fort Myers-Cape Coral']
+
+# Panhandle of FL
+metro_ph = ['Pensacola', 'Tallahassee']
+
+# Gulf Coast of FL (West + Panhandle)
+metro_gulf = ['Pensacola', 'Tallahassee', 'Tampa-St. Petersburg-Clearwater', 'Fort Myers-Cape Coral']
+
+
 # Clean gas station data and generate data frame for cleaned gas station data
 gas_data_redux = gas_clean(gas_data)
+gas_data_redux.name = 'gas_data_redux'
 
-# Import coastal coordinates for visualizations
+# run stats on cleaned data
+# basic analysis on cleaned hurricane data
+sum_stats(hurr_data_redux)
 
+# basic analysis on cleaned gas data
+sum_stats(gas_data_redux)
 
 # Run visualizations
 
@@ -75,18 +104,25 @@ hurr_visuals(hurr_sum_list)
 
 hurr_visuals(hurr_sum_list_rec)
 
+# Hurricane Stats Visuals
+stats_hurr_viz(hurr_data_redux_rec)
+
 # Gas Overview Visuals
-gas_visuals(gas_data_redux)
+gas_visuals_ov(gas_data_redux, metro_all)
+
+gas_visuals(gas_data_redux, metro_east)
+
+gas_visuals(gas_data_redux, metro_gulf)
 
 # Hurricane Tracks Visuals
 
 from hurr_tracks_viz import *
 
 # Season Survey
-hurr_tracks_season(hurr_data_redux)
+#hurr_tracks_season(hurr_data_redux)
 
 # Single Hurricane Track
-hurr_tracks_single(hurr_data_redux, coast_pt_data)
+#hurr_tracks_single(hurr_data_redux, coast_pt_data)
 
 # Compare Hurricane Tracks
 hurr_tracks_compare(hurr_data_redux, coast_pt_data)
