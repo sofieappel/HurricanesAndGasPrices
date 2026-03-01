@@ -5,6 +5,8 @@
 # hurricane data file is hurr_data
 
 def hurr_clean(hurr_data):
+    print(f"Cleaning {hurr_data.name}")
+    
     import numpy as np
     import pandas as pd
     from datetime import datetime
@@ -50,6 +52,9 @@ def hurr_clean(hurr_data):
     for col in num_list:
         hurr_redux[col] = pd.to_numeric(hurr_redux[col], errors = 'coerce')
 
+    # Set a date field
+    hurr_redux['DATE'] = hurr_redux['ISO_TIME'].dt.date
+
     # Generate a list of hurricanes
 
     # Pull subset of columns to describe storms
@@ -78,6 +83,8 @@ def hurr_clean(hurr_data):
 
 
 def gas_clean(gas_data):
+    print(f'Cleaning {gas_data.name}')
+    
     import numpy as np
     import pandas as pd
     from datetime import datetime, date, timedelta 
@@ -86,13 +93,52 @@ def gas_clean(gas_data):
     #gas_data_redux = gas_data[(gas_data['label'] == 'Current Avg.')]
     gas_data_redux = gas_data
 
+    # Drop column wayback_timestamp (time stamp for data collection)
+    gas_data_redux = gas_data_redux.drop(columns = 'wayback_timestamp')
+
     # Convert lat & lon values to numeric
-    gas_data_redux['lat'] = pd.to_numeric(gas_data_redux['lat'])
-    gas_data_redux['lng'] = pd.to_numeric(gas_data_redux['lng'])
+    #gas_data_redux['lat'] = pd.to_numeric(gas_data_redux['lat'])
+    #gas_data_redux['lng'] = pd.to_numeric(gas_data_redux['lng'])
+
+    # Round gas prices to three places
+    gas_data_redux[['regular','mid','premium','diesel']] = gas_data_redux[['regular','mid','premium','diesel']].round(3)
 
     # Convert date string to datetime format
     gas_data_redux['date'] = pd.to_datetime(gas_data_redux['date'])
 
+    # Drop duplicates
+    gas_data_redux = gas_data_redux.drop_duplicates()
+
+    # Sort data by metro area and date
+    gas_data_redux = gas_data_redux.sort_values(['metro','date'])
+
+    # Change date of "yesterday avg." and "week ago avg." to their "current dates"
+    mask = gas_data_redux['label'] == 'Yesterday Avg.'
+    gas_data_redux.loc[mask, 'date'] = gas_data_redux.loc[mask, 'date'] - timedelta(days=1)
+
+    mask2 = gas_data_redux['label'] == 'Week Ago Avg.'
+    gas_data_redux.loc[mask2, 'date'] = gas_data_redux.loc[mask2, 'date'] - timedelta(days=7)
+
+    # Drop month ago and year ago data
+    mask3 = (gas_data_redux['label'] == 'Month Ago Avg.') | (gas_data_redux['label'] == 'Year Ago Avg.')
+    gas_data_redux = gas_data_redux.loc[~mask3]
+
+    # Drop label column
+    gas_data_redux = gas_data_redux.drop(columns = ['label'])
+
+    # Interpolate to set a gas price for each day
+    gas_data_redux  = (gas_data_redux
+                .set_index('date')
+                .groupby('metro')
+                .resample('D')
+                .mean()
+                .interpolate('linear')
+                .reset_index())
+
+    # Create year and month features for binning
+    gas_data_redux['year'] = gas_data_redux['date'].dt.year
+    gas_data_redux['month'] = gas_data_redux['date'].dt.month
+    
     # Create date and datetime keys
     gas_data_redux['date_key'] = gas_data_redux['date']
 
