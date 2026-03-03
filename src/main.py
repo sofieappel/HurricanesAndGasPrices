@@ -10,6 +10,10 @@ import seaborn as sns
 
 import os
 
+# import for distance calculations
+from geopy import distance
+import math
+
 # import scipy for statistical analysis in eda
 #!pip install scipy
 from scipy import stats
@@ -18,7 +22,7 @@ from scipy import stats
 #import re
 
 # import datetime to set timestamp on pdf report
-from datetime import datetime
+from datetime import datetime, timedelta
 
 print("All required libraries installed")
 
@@ -31,16 +35,26 @@ data_file_gas = "../data/aaa_fl_metros_wayback_2022_2025.csv"
 
 data_file_coast = "../data/Gulf_Coast_Coords.csv"
 
+data_file_metro_loc = "../data/gas_coordinates.csv"
+
 # import file loading functions
 from file_load import df_import
 
-hurr_data = df_import(data_file_hurr)
-hurr_data.name = 'hurr_data'
+# import data files
+hurr_file_chk = input('Is hurricane data file downloaded to data folder? (y/n) ')
+if hurr_file_chk == 'y':
+    hurr_data = df_import(data_file_hurr)
+    hurr_data.name = 'hurr_data'
+else:
+    url = 'https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv/ibtracs.NA.list.v04r01.csv'
+    hurr_data = pd.read_csv(url)
 
 gas_data = df_import(data_file_gas)
 gas_data.name = 'gas_data'
 
 coast_pt_data = df_import(data_file_coast)
+
+metro_loc_data = coord_import(data_file_metro_loc)
 
 # import stats functions
 from stats_look import *
@@ -125,4 +139,13 @@ from hurr_tracks_viz import *
 #hurr_tracks_single(hurr_data_redux, coast_pt_data)
 
 # Compare Hurricane Tracks
-hurr_tracks_compare(hurr_data_redux, coast_pt_data)
+#hurr_tracks_compare(hurr_data_redux, coast_pt_data)
+from storm_analysis import *
+
+map_plot(metro_loc_data, metro_all, coast_pt_data)
+
+hurr_data_select, gas_data_select, metro, hurr_name, hurr_seas = data_select(hurr_data_redux, hurr_sum_list, gas_data_redux)
+
+storm_overview(hurr_data_select, gas_data_select, metro, coast_pt_data, hurr_name, hurr_seas, metro_loc_data)
+
+
