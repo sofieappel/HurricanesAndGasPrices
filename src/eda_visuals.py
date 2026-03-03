@@ -120,3 +120,30 @@ def gas_visuals(gas_data, metro_grp):
     plt.xlabel('Date')
     plt.ylabel('Gas Price (Regular)')
     plt.show()
+
+    # Box plot of regular gas prices overall
+    sns.boxplot(data=gas_data_redux, x='regular')
+    plt.title(f'Distribution of Regular Gas Price ({min_year}-{max_year})')
+    plt.xlabel('Gas Price (Regular)')
+    plt.show()
+
+    # Box plot of regular gas prices by year
+    sns.catplot(data=gas_data_redux, x='regular', dodge=True,
+                kind='box', col='year')
+    plt.title(f'Distribution of Regular Gas Price by Year ({min_year}-{max_year})')
+    plt.xlabel('Gas Price (Regular)')
+    plt.show()
+
+    # Box plot of regular gas prices by metro
+    sns.boxplot(data=gas_data_redux, x='regular', y='metro')
+    plt.title(f'Distribution of Regular Gas Price by Metro ({min_year}-{max_year})')
+    plt.xlabel('Gas Price (Regular)')
+    plt.show()
+
+    # Box plot of regular gas prices by metro & year
+    sns.catplot(data=gas_data_redux, x='regular', y='metro', hue='metro', dodge=True,
+                kind='box', col='year')
+    plt.title(f'Distribution of Regular Gas Price by Metro & Year ({min_year}-{max_year})')
+    plt.xlabel('Gas Price (Regular)')
+    plt.show()
+
