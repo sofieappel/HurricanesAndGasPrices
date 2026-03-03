@@ -69,6 +69,23 @@ def stats_hurr_viz(hd):
     plt.title(f'Storm Wind Speed Distribution')
     plt.xlabel('Wind Speed (kts)')
     plt.ylabel('Count')
+
+    # Add lines for Storm Category
+    plt.axvline(64, color='blue', linestyle='--', linewidth=2)
+    plt.text(y = 500, x=64 + 2, s=f"Cat 1 (64-82 kts)", color='black', va='bottom', ha='center')
+
+    plt.axvline(83, color='green', linestyle='--', linewidth=2)
+    plt.text(y = 500, x=83 + 2, s=f"Cat 2 (83-95 kts)", color='black', va='bottom', ha='center')
+
+    plt.axvline(96, color='orange', linestyle='--', linewidth=2)
+    plt.text(y = 500, x=96 + 2, s=f"Cat 3 (96-112 kts)", color='black', va='bottom', ha='center')
+
+    plt.axvline(113, color='red', linestyle='--', linewidth=2)
+    plt.text(y = 500, x=113 + 2, s=f"Cat 4 (113-136 kts)", color='black', va='bottom', ha='center')
+
+    plt.axvline(137, color='darkred', linestyle='--', linewidth=2)
+    plt.text(y = 500, x=137 + 2, s=f"Cat 5 (137+ kts)", color='black', va='bottom', ha='center')
+
     plt.show()
 
     # Show distribution of Storm Category
@@ -80,3 +97,4 @@ def stats_hurr_viz(hd):
     plt.show()
 
 #def stats_gas_viz():
+
