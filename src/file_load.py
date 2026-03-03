@@ -16,3 +16,10 @@ def df_import(datafile):
             return None
 
     return pri_data
+
+def coord_import(datafile):
+    data = pd.read_csv(datafile)
+    metro_loc_data_load = data[['metro','lat','lng']]
+    metro_loc_data = metro_loc_data_load.drop_duplicates()
+    print(f"Successfully loaded {datafile}")
+    return metro_loc_data
