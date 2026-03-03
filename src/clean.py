@@ -70,6 +70,29 @@ def hurr_clean(hurr_data):
 
     hurr_sum_list.rename(columns = {'USA_SSHS': 'MAX CAT'}, inplace=True)
 
+    # Summary list of hurricanes with start and end dates and duration
+    # Pull subset of columns to describe storms
+    hurr_work = hurr_redux[['SID', 'ISO_TIME']]
+    # Remove duplicates
+    hurr_work = hurr_work.drop_duplicates()
+
+    # Storm Start Date
+    hurr_work_min = hurr_work[['SID', 'ISO_TIME']].groupby(['SID'])['ISO_TIME'].min().reset_index()
+    hurr_work_min.rename(columns={'ISO_TIME': 'START DATE'}, inplace=True)
+
+    # Storm End Date
+    hurr_work_max = hurr_work[['SID', 'ISO_TIME']].groupby(['SID'])['ISO_TIME'].max().reset_index()
+    hurr_work_max.rename(columns={'ISO_TIME': 'END DATE'}, inplace=True)
+
+    # Storm Duration
+    hurr_dur = pd.merge(hurr_work_min, hurr_work_max, on='SID', how='left')
+
+    hurr_dur['STORM DURATION'] = (hurr_dur['END DATE'] - hurr_dur['START DATE']).dt.days
+
+    hurr_sum_list = pd.merge(hurr_sum_list,hurr_dur, on='SID', how='left')
+    hurr_sum_list.head()
+
+
     # Create data frames with only storms from 2022-2025 to align with gas data availability
     # Maintain data frames with all data for reference
 
