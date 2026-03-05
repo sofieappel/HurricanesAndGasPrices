@@ -27,3 +27,12 @@ Note: No picture posted on website per discussion with Professor Bastias.
 **Milestone 3:** Model Implementation
 
 **Milestone 4:** Conclusion and Results
+
+# Prerequisites:
+
+This project requires 
+
+Required Python Packages: 
+
+
+Install dependencies using:
