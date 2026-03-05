@@ -9,6 +9,54 @@ A thorough understanding of the impact of hurricanes and large scale natural wea
 
 [Hurricane Watch](https://sites.google.com/view/hurricanewatch-dm/home)
 
+## Repository Structure
+HurricanesAndGasPrices/
+│
+├── data/
+│   ├── aaa_fl_metros_wayback_2022_2025.csv
+│   ├── gas_coordinates.csv
+│   ├── gas_days_geo.csv
+│   ├── Gulf_Coast_Coords.csv
+│   ├── Offshore_Oil_and_Gas_Platforms.csv
+│   ├── usmetros.csv
+│
+├── src/
+│   ├── __init__.py
+│   ├── clean.py
+│   ├── eda_visuals.py
+│   ├── file_load.py
+│   ├── gas_eda.py
+│   ├── gas_hurr_viz.py
+│   ├── hurr_tracks_viz.py
+│   ├── main.ipynb
+│   ├── main.py
+│   ├── scrape.py
+│   ├── stats_look.py
+│   ├── storm_analysis.py
+│
+├── docs/
+│   ├── holmes_chatlog_scrape.pdf
+│   ├── metro_geo_liscence.pdf
+│
+├── requirements.txt
+└── README.md
+
+# Prerequisites:
+
+This project requires 
+- Python 3.10+
+
+Required Python Packages: 
+numpy
+pandas
+matplotlib
+seaborn
+scipy
+scikit-learn
+jupyter
+
+Install dependencies using:
+
 ## Team Members:
 
 **Erin Noonan:** Data Lead
@@ -28,11 +76,4 @@ Note: No picture posted on website per discussion with Professor Bastias.
 
 **Milestone 4:** Conclusion and Results
 
-# Prerequisites:
 
-This project requires 
-
-Required Python Packages: 
-
-
-Install dependencies using:
