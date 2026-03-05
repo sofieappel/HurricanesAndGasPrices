@@ -71,7 +71,7 @@ from clean import *
 
 # Clean hurricane data and generate data frames for cleaned hurricane data, list of hurricanes, and summary list of hurricanes with maximum storm category observed
 # Generates data frames with ALL data and a set of filtered data frames for "recent" (2022-2025)
-hurr_data_redux, hurr_list, hurr_sum_list, hurr_data_redux_rec, hurr_list_rec, hurr_sum_list_rec= hurr_clean(hurr_data)
+hurr_data_redux, hurr_list, hurr_sum_list, hurr_data_redux_rec, hurr_list_rec, hurr_sum_list_rec , hurr_data_redux_rec_hur = hurr_clean(hurr_data)
 
 # Name output data frames
 hurr_data_redux.name = 'hurr_data_redux'
@@ -80,6 +80,7 @@ hurr_sum_list.name = 'hurr_sum_list'
 hurr_data_redux_rec.name = 'hurr_data_redux_rec'
 hurr_list_rec.name = 'hurr_list_rec'
 hurr_sum_list_rec.name = 'hurr_sum_list_rec'
+hurr_data_redux_rec_hur.name = 'hurr_data_redux_rec_hur'
 
 # List metro areas of interest
 # all FL cities selected to represent the perimeter
@@ -119,7 +120,11 @@ hurr_visuals(hurr_sum_list)
 hurr_visuals(hurr_sum_list_rec)
 
 # Hurricane Stats Visuals
+# All storms 2022-2025
 stats_hurr_viz(hurr_data_redux_rec)
+
+# All hurricanes 2022-2025
+stats_hurr_viz(hurr_data_redux_rec_hur)
 
 # Gas Overview Visuals
 gas_visuals_ov(gas_data_redux, metro_all)
