@@ -92,7 +92,6 @@ def hurr_clean(hurr_data):
     hurr_sum_list = pd.merge(hurr_sum_list,hurr_dur, on='SID', how='left')
     hurr_sum_list.head()
 
-
     # Create data frames with only storms from 2022-2025 to align with gas data availability
     # Maintain data frames with all data for reference
 
@@ -100,9 +99,13 @@ def hurr_clean(hurr_data):
     hurr_list_rec = hurr_list[(hurr_list['SEASON'] > 2021)]
     hurr_sum_list_rec = hurr_sum_list[(hurr_sum_list['SEASON'] > 2021)]
 
+    # Create data frame of hurricanes from 2022-2025
+    hurr_list_hurr_rec = hurr_sum_list[(hurr_sum_list['MAX CAT']>0) & (hurr_sum_list['SEASON']>2021)]
+    hurr_redux_rec_hur = pd.merge(hurr_list_hurr_rec,hurr_redux_rec,on = 'SID', how = 'left')
+
     print('Hurricane data cleaning complete')
 
-    return hurr_redux, hurr_list, hurr_sum_list, hurr_redux_rec, hurr_list_rec, hurr_sum_list_rec
+    return hurr_redux, hurr_list, hurr_sum_list, hurr_redux_rec, hurr_list_rec, hurr_sum_list_rec, hurr_redux_rec_hur
 
 
 def gas_clean(gas_data):
