@@ -1,5 +1,7 @@
 # stats_look.py
 
+import numpy as np
+
 # Run basic statistical analysis and plots for data sets
 
 def sum_stats(dataset):
@@ -63,6 +65,11 @@ def stats_hurr_viz(hd):
     plt.ylabel('Landfall - Nearest location to land in next timestep (km)')
     plt.show()
 
+        # Identify max height of histogram for labeling placement
+    counts, bin_edges = np.histogram(hd['USA_WIND'], bins='auto')
+    # Find the maximum count
+    max_count = np.max(counts)
+    
     # Show distribution of Wind Speed
     plt.figure(figsize=(20, 5))
     sns.histplot(data=hd, x='USA_WIND')
@@ -72,19 +79,19 @@ def stats_hurr_viz(hd):
 
     # Add lines for Storm Category
     plt.axvline(64, color='blue', linestyle='--', linewidth=2)
-    plt.text(y = 500, x=64 + 2, s=f"Cat 1 (64-82 kts)", color='black', va='bottom', ha='center')
+    plt.text(y = max_count, x=64 + 2, s=f"Cat 1 (64-82 kts)", color='black', va='bottom', ha='center')
 
     plt.axvline(83, color='green', linestyle='--', linewidth=2)
-    plt.text(y = 500, x=83 + 2, s=f"Cat 2 (83-95 kts)", color='black', va='bottom', ha='center')
+    plt.text(y = max_count, x=83 + 2, s=f"Cat 2 (83-95 kts)", color='black', va='bottom', ha='center')
 
     plt.axvline(96, color='orange', linestyle='--', linewidth=2)
-    plt.text(y = 500, x=96 + 2, s=f"Cat 3 (96-112 kts)", color='black', va='bottom', ha='center')
+    plt.text(y = max_count, x=96 + 2, s=f"Cat 3 (96-112 kts)", color='black', va='bottom', ha='center')
 
     plt.axvline(113, color='red', linestyle='--', linewidth=2)
-    plt.text(y = 500, x=113 + 2, s=f"Cat 4 (113-136 kts)", color='black', va='bottom', ha='center')
+    plt.text(y = max_count, x=113 + 2, s=f"Cat 4 (113-136 kts)", color='black', va='bottom', ha='center')
 
     plt.axvline(137, color='darkred', linestyle='--', linewidth=2)
-    plt.text(y = 500, x=137 + 2, s=f"Cat 5 (137+ kts)", color='black', va='bottom', ha='center')
+    plt.text(y = max_count, x=137 + 2, s=f"Cat 5 (137+ kts)", color='black', va='bottom', ha='center')
 
     plt.show()
 
@@ -97,4 +104,5 @@ def stats_hurr_viz(hd):
     plt.show()
 
 #def stats_gas_viz():
+
 
