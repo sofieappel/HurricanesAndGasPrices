@@ -43,7 +43,7 @@ HurricanesAndGasPrices/
   └── README.md
 ```
 
-# Prerequisites:
+## Prerequisites:
 
 This project requires 
 - Python 3.10+
@@ -58,6 +58,11 @@ Required Python Packages:
 - scikit-learn
 - jupyter
 
+To obtain visualizations, run: 
+
+```bash
+%run main.py
+```
 
 ## Team Members:
 
