@@ -58,7 +58,7 @@ Required Python Packages:
 - scikit-learn
 - jupyter
 
-To obtain visualizations, run: 
+**To obtain visualizations, run:**
 
 ```bash
 %run main.py
