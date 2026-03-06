@@ -10,6 +10,7 @@ A thorough understanding of the impact of hurricanes and large scale natural wea
 [Hurricane Watch](https://sites.google.com/view/hurricanewatch-dm/home)
 
 ## Repository Structure
+```
 HurricanesAndGasPrices/
   │
   ├── data/
@@ -40,6 +41,7 @@ HurricanesAndGasPrices/
   │
   ├── requirements.txt
   └── README.md
+```
 
 # Prerequisites:
 
@@ -47,15 +49,15 @@ This project requires
 - Python 3.10+
 
 Required Python Packages: 
-numpy
-pandas
-matplotlib
-seaborn
-scipy
-scikit-learn
-jupyter
 
-Install dependencies using:
+- numpy
+- pandas
+- matplotlib
+- seaborn
+- scipy
+- scikit-learn
+- jupyter
+
 
 ## Team Members:
 
