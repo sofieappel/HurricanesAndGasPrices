@@ -11,15 +11,13 @@ import seaborn as sns
 import os
 
 # import for distance calculations
+# pip install geopy
 from geopy import distance
 import math
 
 # import scipy for statistical analysis in eda
-#!pip install scipy
+# pip install scipy
 from scipy import stats
-
-# import re to help with wildmatch for column name standardization
-#import re
 
 # import datetime to set timestamp on pdf report
 from datetime import datetime, timedelta
@@ -44,10 +42,11 @@ from file_load import df_import
 hurr_file_chk = input('Is hurricane data file downloaded to data folder? (y/n) ')
 if hurr_file_chk == 'y':
     hurr_data = df_import(data_file_hurr)
-    hurr_data.name = 'hurr_data'
 else:
     url = 'https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv/ibtracs.NA.list.v04r01.csv'
     hurr_data = pd.read_csv(url)
+
+hurr_data.name = 'hurr_data'
 
 gas_data = df_import(data_file_gas)
 gas_data.name = 'gas_data'
@@ -152,5 +151,31 @@ map_plot(metro_loc_data, metro_all, coast_pt_data)
 hurr_data_select, gas_data_select, metro, hurr_name, hurr_seas = data_select(hurr_data_redux, hurr_sum_list, gas_data_redux)
 
 storm_overview(hurr_data_select, gas_data_select, metro, coast_pt_data, hurr_name, hurr_seas, metro_loc_data)
+
+# Generate plot comparisons of specific metro gas prices and hurricane features (distance to metro, storm wind speed, storm travel speed)
+# for identified hurricanes making land fall near specific metro areas
+
+# List of identified storms and nearby metros
+storm_data = {
+    'Season': [2024,2024,2023,2023,2023,2024,2024,2024,2022,2022,2022,2022,2022], 
+    'Name': ['Milton','Helene','Idalia','Idalia','Idalia','Debby','Debby','Debby','Nicole','Nicole','Nicole','Ian','Ian'], #,'Idalia',
+    "Metro": ['Tampa-St. Petersburg-Clearwater','Tallahassee','Tallahassee','Tampa-St. Petersburg-Clearwater','Jacksonville','Tallahassee','Tampa-St. Petersburg-Clearwater','Jacksonville','Miami','West Palm Beach-Boca Raton','Melbourne-Titusville','Tampa-St. Petersburg-Clearwater','Fort Myers-Cape Coral']
+}
+
+storm_df = pd.DataFrame(storm_data)
+print(storm_df)
+
+L = storm_df.shape[0]
+
+# Plot generation loop
+for i in range(L):
+    # assign variables
+    hurr_seas = storm_df['Season'][i]
+    hurr_name = storm_df['Name'][i].upper()
+    metro_nm = storm_df['Metro'][i]
+
+    print(f'Hurricane {hurr_name} ({hurr_seas}) and {metro_nm}')
+    
+    rel_plot(hurr_seas, hurr_name, metro_nm, metro_loc_data, hurr_data_redux, gas_data_redux)
 
 
