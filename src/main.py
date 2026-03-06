@@ -97,7 +97,6 @@ metro_ph = ['Pensacola', 'Tallahassee']
 # Gulf Coast of FL (West + Panhandle)
 metro_gulf = ['Pensacola', 'Tallahassee', 'Tampa-St. Petersburg-Clearwater', 'Fort Myers-Cape Coral']
 
-
 # Clean gas station data and generate data frame for cleaned gas station data
 gas_data_redux = gas_clean(gas_data)
 gas_data_redux.name = 'gas_data_redux'
@@ -115,7 +114,6 @@ from eda_visuals import *
 
 # Hurricane Overview Visuals
 hurr_visuals(hurr_sum_list)
-
 hurr_visuals(hurr_sum_list_rec)
 
 # Hurricane Stats Visuals
@@ -133,7 +131,6 @@ gas_visuals(gas_data_redux, metro_east)
 gas_visuals(gas_data_redux, metro_gulf)
 
 # Hurricane Tracks Visuals
-
 from hurr_tracks_viz import *
 
 # Season Survey
@@ -144,6 +141,8 @@ from hurr_tracks_viz import *
 
 # Compare Hurricane Tracks
 #hurr_tracks_compare(hurr_data_redux, coast_pt_data)
+
+# Storm Analysis
 from storm_analysis import *
 
 map_plot(metro_loc_data, metro_all, coast_pt_data)
@@ -177,5 +176,4 @@ for i in range(L):
     print(f'Hurricane {hurr_name} ({hurr_seas}) and {metro_nm}')
     
     rel_plot(hurr_seas, hurr_name, metro_nm, metro_loc_data, hurr_data_redux, gas_data_redux)
-
 
