@@ -74,7 +74,7 @@ def data_select(hurr_data_redux, hurr_sum_list, gas_data):
     gas_data_select = gas_data[(gas_data['metro'].isin(metro))]
 
     # Convert date string to datetime format
-    gas_data_select['date'] = pd.to_datetime(gas_data_select['date'])
+    gas_data_select.loc[:, 'date'] = pd.to_datetime(gas_data_select['date'])
 
     return hurr_data_select, gas_data_select, metro, hurr_name, hurr_seas
 
@@ -186,14 +186,7 @@ def metro_analysis(metro_loc_data, hurr_data_select, gas_data_select, metro, sto
 
     for M in metro_loc_select['metro']:
         print(M)
-        #landpoint_lat = (metro_loc_select['lat'][(metro_loc_select['metro'] == M)])
-        #landpoint_lon = (metro_loc_select['lng'][(metro_loc_select['metro'] == M)])
-        #if (math.isnan(landpoint_lat.item())) or (math.isnan(landpoint_lon.item())):
-            #print(f"Missing coordinate data for {M}")
-            #continue
-        #else:
-            #print(f"({landpoint_lat},{landpoint_lon})")
-
+        
         tie_in = []
 
         luc = metro_loc_select['metro'] == M
@@ -206,11 +199,6 @@ def metro_analysis(metro_loc_data, hurr_data_select, gas_data_select, metro, sto
         d = len(hurr_data_select)
         dist_date = [] * d
         dist_dist = [] * d
-
-        #landpoint_lat = (metro_loc_select['lat'][[(metro_loc_select['metro'] == metro_sel)]])
-        #landpoint_lon = (metro_loc_select['lng'][[(metro_loc_select['metro'] == metro_sel)]])
-        #print(f"({landpoint_lat},{landpoint_lon})")
-        #point1 = (float(landpoint_lat), float(landpoint_lon))
 
         # Set fixed point array
         start = [point1] * d
@@ -231,7 +219,6 @@ def metro_analysis(metro_loc_data, hurr_data_select, gas_data_select, metro, sto
             dist = (distance.distance(start_array[i], finish_array[i]).km)
             results.append(dist)
 
-        # op = pd.DataFrame([res,results], columns = ['dist'])
         results_df = pd.DataFrame(results, columns=['dist'])
         results_df.head()
         results_df.shape
@@ -283,4 +270,173 @@ def map_plot(metro_loc_data, metro_all, coast_pt_data):
                 xytext=(10, 5),
                 ha='center')
     plt.title(f'Selected Florida Metro Areas for Gas Data Analysis')
+    plt.show()
+
+def rel_plot(hurr_seas, hurr_name, metro_nm, metro_loc_data, hurr_data_redux, gas_data_redux):
+    import pandas as pd
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    from datetime import datetime, timedelta
+    
+    metro_loc_select = []
+    hurr_data_select = []
+    gas_data_select = []
+    gas_data_storm = []
+    tie_in = []
+
+    metro_loc_select = metro_loc_data[(metro_loc_data['metro'] == metro_nm)]
+
+    hurr_data_select = hurr_data_redux[
+        (hurr_data_redux['SEASON'] == hurr_seas) & (hurr_data_redux['NAME'] == hurr_name)]
+
+    # Filter gas data to selected metro areas
+    gas_data_select = gas_data_redux[(gas_data_redux['metro'] == metro_nm)]
+
+    # Convert date string to datetime format
+    gas_data_select.loc[:, 'date'] = pd.to_datetime(gas_data_select['date'])
+
+    # Extract storm start and end dates
+    storm_start_date = hurr_data_select['ISO_TIME'].min()
+    storm_end_date = hurr_data_select['ISO_TIME'].max()
+
+    # Gas data during storm
+    gas_data_storm = gas_data_select[
+        (gas_data_select['date'] >= storm_start_date) & (gas_data_select['date'] <= storm_end_date)]
+    gas_data_storm.loc[:, 'date_time_key'] = gas_data_storm['date'] + timedelta(hours=12, minutes=0, seconds=0)
+
+    # Set metro location / coords
+    luc = metro_loc_select['metro'] == metro_nm
+
+    landpoint_lat = metro_loc_select.loc[luc, 'lat']
+    landpoint_lon = metro_loc_select.loc[luc, 'lng']
+
+    point1 = (landpoint_lat.item(), landpoint_lon.item())
+
+    d = len(hurr_data_select)
+    dist_date = [] * d
+    dist_dist = [] * d
+
+    start = [point1] * d
+    start_df = pd.DataFrame(start)
+    start_array = start_df.to_numpy()
+
+    # set data frame to catch distance data
+    tie_in = pd.DataFrame(
+        hurr_data_select[['ISO_TIME', 'DATE', 'USA_LAT', 'USA_LON', 'USA_WIND', 'STORM_SPEED']].reset_index(drop=True))
+    tie_in.rename(columns={'DATE': 'date'}, inplace=True)
+    tie_in['date_time_key'] = tie_in['ISO_TIME']
+
+    # Storm location
+    finish = hurr_data_select[['USA_LAT', 'USA_LON']]
+    results = [] * d
+
+    finish_array = finish.to_numpy()
+
+    # Iterate to calculate storm distance from metro point
+    for i in range(len(hurr_data_select)):
+        dist = (distance.distance(start_array[i], finish_array[i]).km)
+        results.append(dist)
+
+    results_df = pd.DataFrame(results, columns=['dist'])
+    results_df.head()
+    results_df.shape
+
+    tie_in['dist'] = results_df
+
+    # Plot generation
+    # Plot of hurricane parameters and avg gas prices to look at trends
+    fig, axs = plt.subplots(3, 1, figsize=(8, 10))
+    fig.subplots_adjust(hspace=0.5, top=0.9, bottom=0.1, left=0.1, right=0.9)  # wspace=0.3,
+    fig.suptitle(f'Hurricane {hurr_name.capitalize()} ({hurr_seas}) and {metro_nm} Gas Prices', fontsize=16,
+                 fontweight='bold')
+
+    # Subplot 1: Storm distance from Metro and Avg Gas Prices (Reg)
+    ax1 = axs[0]
+    ax2 = ax1.twinx()
+    sns.scatterplot(data=tie_in, x='ISO_TIME', y='dist', ax=ax1, label = 'Distance')
+    sns.scatterplot(data=gas_data_storm, x='date_time_key', y=gas_data_storm['regular'], color='orange', ax=ax2)
+    sns.lineplot(data=gas_data_storm, x='date_time_key', y=gas_data_storm['regular'], color='orange', ax=ax2, label = 'Avg gas price (reg)')
+    ax1.set_xlabel('Date')
+    ax1.tick_params(axis='x', labelsize=8)
+    ax1.set_ylabel(f'Distance to Metro Area (km)')
+    ax2.set_ylabel('Gas Price ($/gal)')
+    plt.title(f'Distance from Hurricane to Metro Area (km) & Average Regular Gas Prices', fontsize=14)
+    axs[0].legend(loc='upper right')
+
+    # Subplot 2: Storm Wind Speed and Avg Gas Prices (Reg)
+    ax3 = axs[1]
+    ax4 = ax3.twinx()
+    sns.scatterplot(data=tie_in, x='ISO_TIME', y='USA_WIND', color='green', ax=ax3, label = 'Wind speed')
+    sns.scatterplot(data=gas_data_storm, x='date_time_key', y=gas_data_storm['regular'], color='orange', ax=ax4)
+    sns.lineplot(data=gas_data_storm, x='date_time_key', y=gas_data_storm['regular'], color='orange', ax=ax4, label = 'Avg gas price (reg)')
+    ax3.set_xlabel('Date')
+    ax3.tick_params(axis='x', labelsize=8)
+    ax3.set_ylabel(f'Wind Speed (kts)')
+    ax4.set_ylabel('Gas Price ($/gal)')
+    plt.title(f'Hurricane Wind Speed (kts) & Average Regular Gas Prices', fontsize=14)
+    axs[1].legend(loc='upper right')
+
+    # Subplot 3: Storm Speed of Travel and Avg Gas Prices (Reg)
+    ax5 = axs[2]
+    ax6 = ax5.twinx()
+    sns.scatterplot(data=tie_in, x='ISO_TIME', y='STORM_SPEED', color='purple', ax=ax5, label = 'Storm speed')
+    sns.scatterplot(data=gas_data_storm, x='date_time_key', y=gas_data_storm['regular'], color='orange', ax=ax6)
+    sns.lineplot(data=gas_data_storm, x='date_time_key', y=gas_data_storm['regular'], color='orange', ax=ax6, label = 'Avg gas price (reg)')
+    ax5.set_xlabel('Date')
+    ax5.tick_params(axis='x', labelsize=8)
+    ax5.set_ylabel(f'Storm Speed (kts)')
+    ax6.set_ylabel('Gas Price ($/gal)')
+    plt.title(f'Hurricane Storm Speed (kts) & Average Regular Gas Prices', fontsize=14)
+    axs[2].legend(loc='upper right')
+
+    plt.show()
+
+    # Plot of Metro Gas Prices during Hurricane
+    # Subplot 1: Average Gas Prices (Regular, Mid, and Premium) during Hurricane duration
+    fig1, axs = plt.subplots(2, 1, figsize=(8, 10))
+    fig1.subplots_adjust(hspace=0.5, top=0.9, bottom=0.1, left=0.1, right=0.9)  # wspace=0.3,
+    fig1.suptitle(f'{metro_nm} Gas Prices during Hurricane {hurr_name}', fontsize=16, fontweight='bold')
+
+    ax = axs[0]
+    ax.set_title(f'Metro Average Gas Prices during Hurricane', fontsize=14)
+    sns.scatterplot(data=gas_data_storm, x='date_time_key', y=gas_data_storm['regular'], color='orange', ax=ax)
+    sns.lineplot(data=gas_data_storm, x='date_time_key', y=gas_data_storm['regular'], color='orange', ax=ax, label = 'Regular')
+
+    sns.scatterplot(data=gas_data_storm, x='date_time_key', y=gas_data_storm['mid'], color='blue', ax=ax)
+    sns.lineplot(data=gas_data_storm, x='date_time_key', y=gas_data_storm['mid'], color='blue', ax=ax, label = 'Mid')
+
+    sns.scatterplot(data=gas_data_storm, x='date_time_key', y=gas_data_storm['premium'], color='red', ax=ax)
+    sns.lineplot(data=gas_data_storm, x='date_time_key', y=gas_data_storm['premium'], color='red', ax=ax, label = 'Premium')
+
+    ax.set_xlabel('Date')
+    ax.tick_params(axis='x', labelsize=8)
+    axs[0].legend(loc='upper right')
+
+    ax.set_ylabel('Gas Price ($/gal)')
+
+    # Subplot : Changes in Average Gas Prices (Regular, Mid, and Premium) during Hurricane duration
+    # Change is taken with respect to the gas price on the first day of storm data
+    bl_reg = gas_data_storm['regular'].iat[0].item()
+    bl_mid = gas_data_storm['mid'].iat[0].item()
+    bl_pre = gas_data_storm['premium'].iat[0].item()
+
+    ax1 = axs[1]
+    sns.scatterplot(data=gas_data_storm, x='date_time_key', y=gas_data_storm['regular'] - bl_reg, color='orange',
+                    ax=ax1)
+    sns.lineplot(data=gas_data_storm, x='date_time_key', y=gas_data_storm['regular'] - bl_reg, color='orange', ax=ax1, label = 'Regular')
+
+    sns.scatterplot(data=gas_data_storm, x='date_time_key', y=gas_data_storm['mid'] - bl_mid, color='blue', ax=ax1)
+    sns.lineplot(data=gas_data_storm, x='date_time_key', y=gas_data_storm['mid'] - bl_mid, color='blue', ax=ax1, label = 'Mid')
+
+    sns.scatterplot(data=gas_data_storm, x='date_time_key', y=gas_data_storm['premium'] - bl_pre, color='red', ax=ax1)
+    sns.lineplot(data=gas_data_storm, x='date_time_key', y=gas_data_storm['premium'] - bl_pre, color='red', ax=ax1, label = 'Premium')
+
+    ax1.set_xlabel('Date')
+    ax1.tick_params(axis='x', labelsize=8)
+
+    ax1.set_ylabel('Change in Gas Price ($/gal)')
+    ax1.set_title(f'Changes in Average Gas Prices Changes during Hurricane', fontsize=14)
+    axs[1].legend(loc='upper right')
+
     plt.show()
