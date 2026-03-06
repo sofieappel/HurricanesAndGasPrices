@@ -9,7 +9,7 @@ A thorough understanding of the impact of hurricanes and large scale natural wea
 
 [Hurricane Watch](https://sites.google.com/view/hurricanewatch-dm/home)
 
-## Repository Structure
+## Repository Structure:
 ```
 HurricanesAndGasPrices/
   │
