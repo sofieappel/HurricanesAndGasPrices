@@ -33,3 +33,21 @@ def model_dec_tree():
 
 def model_rand_forest():
     x
+
+
+def cluster(df, k):
+    #Scale features of numeric dataframe
+    df = df.select_dtypes(['number'])
+    scaler = StandardScaler()
+    df = pd.DataFrame(scaler.fit_transform(df),columns=df.columns)
+
+    kmeans = KMeans(n_clusters=k, init='k-means++', max_iter=300, n_init=10, random_state=0)
+    kmeans.fit(df)
+    features = ['MAX CAT', 'STORM DURATION','gas_pct_change']
+
+    # Adding cluster labels to the dataframe
+    df_centroids = pd.DataFrame(kmeans.cluster_centers_, columns=features)
+    df_centroids['cluster'] = df_centroids.index
+
+    fig = px.parallel_coordinates(df_centroids, color='cluster', color_continuous_scale=px.colors.sequential.Viridis)
+    fig.show()
