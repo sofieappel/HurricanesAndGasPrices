@@ -50,8 +50,8 @@ def storm_ols(df, storm_name, outcome, regressors, diagnostic=True, dropna=True)
     return model, reg_df 
 
 
-def ols_train_test(df, metro_name, outcome, regressors, test_size):
-    metro_df = df[df["met"] == metro_name].copy()
+def ols_train_test(df, name, outcome, regressors, test_size):
+    metro_df = df[df["name"] == name].copy()
 
     model_df = metro_df[[outcome] + regressors].dropna().copy()
     
