@@ -14,11 +14,8 @@ A thorough understanding of the impact of hurricanes and large scale natural wea
 HurricanesAndGasPrices/
   │
   ├── data/
-  │
   ├── src/
-  │
   ├── docs/
-  │
   ├── requirements.txt
   └── README.md
 ```
