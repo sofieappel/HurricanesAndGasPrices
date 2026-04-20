@@ -14,30 +14,10 @@ A thorough understanding of the impact of hurricanes and large scale natural wea
 HurricanesAndGasPrices/
   │
   ├── data/
-  │   ├── aaa_fl_metros_wayback_2022_2025.csv
-  │   ├── gas_coordinates.csv
-  │   ├── gas_days_geo.csv
-  │   ├── Gulf_Coast_Coords.csv
-  │   ├── Offshore_Oil_and_Gas_Platforms.csv
-  │   ├── usmetros.csv
   │
   ├── src/
-  │   ├── __init__.py
-  │   ├── clean.py
-  │   ├── eda_visuals.py
-  │   ├── file_load.py
-  │   ├── gas_eda.py
-  │   ├── gas_hurr_viz.py
-  │   ├── hurr_tracks_viz.py
-  │   ├── main.ipynb
-  │   ├── main.py
-  │   ├── scrape.py
-  │   ├── stats_look.py
-  │   ├── storm_analysis.py
   │
   ├── docs/
-  │   ├── holmes_chatlog_scrape.pdf
-  │   ├── metro_geo_liscence.pdf
   │
   ├── requirements.txt
   └── README.md
